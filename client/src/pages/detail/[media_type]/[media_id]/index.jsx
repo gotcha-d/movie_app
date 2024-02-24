@@ -3,7 +3,7 @@ import { Box, Container, Grid, Typography } from '@mui/material'
 import axios from 'axios'
 import React from 'react'
 
-const Detail = ({ detail }) => {
+const Detail = ({ detail, media_type }) => {
 
     console.log(detail)
 
@@ -45,16 +45,18 @@ const Detail = ({ detail }) => {
                 >
                 </Box>
                 
-                <Container sx={{ zIndex: 1, bgcolor: "purple" }}
+                <Container sx={{ zIndex: 1 }}
                 >
-                    <Grid sx={{ color:"white", bgcolor: "green" } } container alignItems={"center"}>
-                        <Grid item md={4} sx={{bgcolor:"pink", display:"flex", justifyContent:"center"}}>
+                    <Grid sx={{ color:"white" } } container alignItems={"center"}>
+                        <Grid item md={4} sx={{ display:"flex", justifyContent:"center"}}>
                             <img width="70%" src={`https://image.tmdb.org/t/p/original${detail.poster_path}`} />
                         </Grid>
-                        <Grid item md={8} sx={{ bgcolor: "orange" }}>
-                            <Typography variant='h4' paragraph>{detail.title}</Typography>
+                        <Grid item md={8} >
+                            <Typography variant='h4' paragraph>{detail.title || detail.name }</Typography>
                             <Typography paragraph>{detail.overview}</Typography>
-                            <Typography variant='h6'>{detail.release_date}</Typography>
+                            <Typography variant='h6'>
+                              {media_type == "movie" ? `公開日：${detail.release_date}` : `初回放送日：${detail.first_air_date}`}
+                            </Typography>
                         </Grid>
                     </Grid>
                 </Container>
@@ -79,7 +81,7 @@ export async function getServerSideProps(context) {
         }
         
         return {
-            props: {detail: combinedData}
+            props: {detail: combinedData, media_type, media_id}
         }
 
     } catch {

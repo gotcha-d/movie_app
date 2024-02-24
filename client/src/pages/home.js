@@ -7,6 +7,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { Button, CardActionArea, CardMedia, Typography } from '@mui/material';
 import Link from 'next/link';
+import { SearchBar } from '@/components/SearchBar';
 
 const Home = () => {
     const [movies, setMovies] = useState([]);
@@ -17,8 +18,6 @@ const Home = () => {
         try {
             const response = await axios.get('api/getPopularMovies');
             setMovies(response.data.results);
-            // ブラウザに出力されるログ出力
-            console.log(movies)    
         } catch(err) {
             console.log(err);
         }
@@ -37,6 +36,8 @@ const Home = () => {
             <Head>
                 <title>Laravel - Dashboard</title>
             </Head>
+
+            <SearchBar />
 
             <Swiper
             spaceBetween={30}
@@ -88,7 +89,6 @@ const Home = () => {
                 ))}
             </Swiper>
             
-            <Button variant='contained'>押す</Button>
         </AppLayout>
     )
 }
